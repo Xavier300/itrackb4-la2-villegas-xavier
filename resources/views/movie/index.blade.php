@@ -5,7 +5,7 @@
 </head>
 <body>
     <h1>My Products List</h1>
-    <p>Prepared by: James Franco A. Gonzales</p>
+    <p>Prepared by: Xavier A. Villegas</p>
  
     <table border="1" cellpadding="8">
         <tr>
