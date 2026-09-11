@@ -1,32 +1,38 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Movie Filter</title>
-</head>
-<body>
-    <h1>Movie Filter</h1>
-    <p>Prepared by: Xavier A. Villegas</p>
+@extends('layouts.app')
 
-    @if ($activeFilter)
-        <p>Filtered by year: {{ $activeFilter }}</p>
+@section('title', 'Filter Movies')
+
+@section('heading', 'Filter Movie')
+
+@section('content')
+    @if ($activeFilter === null)
+        <h4 class="mt-4">All Movies</h4>
     @else
-        <p>All items are shown</p>
+        <h4 class="mt-4">Movies from {{ $activeFilter }}</h4>
     @endif
 
-    <table border="1" cellpadding="8">
-        <tr>
-            <th>Title</th>
-            <th>Year</th>
-        </tr>
-
-        @foreach ($movies as $movie)
+    <table class="table table-striped mt-4" border="1" cellpadding="8">
+        <thead>
             <tr>
-                <td><a href="{{ route('movies.show', ['id' => $movie['id']]) }}">{{ $movie['title'] }}</a></td>
-                <td>{{ $movie['year'] }}</td>
+                <th>#</th>
+                <th>Title</th>
+                <th>Year</th>
             </tr>
-        @endforeach
+        </thead>
+        <tbody>
+            @forelse ($movies as $movie)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td><a href="{{ route('movies.show', ['id' => $movie['id']]) }}">{{ $movie['title'] }}</a></td>
+                    <td>{{ $movie['year'] }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="3">No movies found for this year.</td>
+                </tr>
+            @endforelse
+        </tbody>
     </table>
 
-    <p><a href="{{ route('movies.index') }}">Back to list</a></p>
-</body>
-</html>
+    <a class="btn btn-secondary" href="{{ route('movies.index') }}">Back</a>
+@endsection

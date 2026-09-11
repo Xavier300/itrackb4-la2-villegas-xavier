@@ -1,15 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ $movie['title'] }}</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', 'Show Movie')
+
+@section('heading', 'Show Movie')
+
+@section('content')
     <h1>{{ $movie['title'] }}</h1>
-    <p>Prepared by: Xavier A. Villegas</p>
 
     <p><strong>Title:</strong> {{ $movie['title'] }}</p>
     <p><strong>Year:</strong> {{ $movie['year'] }}</p>
 
     <p><a href="{{ route('movies.index') }}">Back to list</a></p>
-</body>
-</html>
+@endsection
