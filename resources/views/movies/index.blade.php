@@ -15,7 +15,7 @@
             @forelse ($movies as $movie)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td><a href="{{ route('movies.show', ['id' => $movie['id']]) }}">{{ $movie['title'] }}</a></td>
+                    <td><a href="{{ route('movies.show', ['movie' => $movie['id']]) }}">{{ $movie['title'] }}</a></td>
                     <td>
                         {{ $movie['year'] }}
                         @if ($movie['year'] >= 2000)

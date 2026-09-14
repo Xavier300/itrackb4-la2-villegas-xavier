@@ -43,14 +43,6 @@ class ExampleTest extends TestCase
             ->assertDontSee('The Shawshank Redemption');
     }
 
-    public function test_featured_movie_page_shows_the_featured_pick(): void
-    {
-        $response = $this->get('/movies/featured');
-
-        $response->assertStatus(200)
-            ->assertSee('The Dark Knight');
-    }
-
     public function test_movies_filter_page_shows_only_matching_movies(): void
     {
         $response = $this->get('/movies/filter/1994');

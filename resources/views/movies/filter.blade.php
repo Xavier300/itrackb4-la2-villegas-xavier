@@ -6,9 +6,9 @@
 
 @section('content')
     @if ($activeFilter === null)
-        <h4 class="mt-4">All Movies</h4>
+        <h4 class="mt-4">All items are shown</h4>
     @else
-        <h4 class="mt-4">Movies from {{ $activeFilter }}</h4>
+        <h4 class="mt-4">Filtered by year: {{ $activeFilter }}</h4>
     @endif
 
     <table class="table table-striped mt-4" border="1" cellpadding="8">
@@ -23,7 +23,7 @@
             @forelse ($movies as $movie)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td><a href="{{ route('movies.show', ['id' => $movie['id']]) }}">{{ $movie['title'] }}</a></td>
+                    <td><a href="{{ route('movies.show', ['movie' => $movie['id']]) }}">{{ $movie['title'] }}</a></td>
                     <td>{{ $movie['year'] }}</td>
                 </tr>
             @empty
