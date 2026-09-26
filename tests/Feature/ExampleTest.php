@@ -24,6 +24,54 @@ class ExampleTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_movies_index_shows_all_movies_without_filters(): void
+    {
+        $this->get('/movies')
+            ->assertStatus(200)
+            ->assertSee('The Shawshank Redemption')
+            ->assertSee('The Godfather')
+            ->assertSee('The Dark Knight')
+            ->assertSee('Pulp Fiction')
+            ->assertSee('Forrest Gump');
+    }
+
+    public function test_movies_index_filters_by_year(): void
+    {
+        $this->get('/movies?year=2008')
+            ->assertStatus(200)
+            ->assertSee('The Dark Knight')
+            ->assertDontSee('The Godfather');
+    }
+
+    public function test_movies_index_filters_by_genre(): void
+    {
+        $this->get('/movies?genre=Drama')
+            ->assertStatus(200)
+            ->assertSee('The Shawshank Redemption')
+            ->assertSee('Forrest Gump')
+            ->assertDontSee('The Godfather');
+    }
+
+    public function test_movies_index_applies_both_filters_together(): void
+    {
+        $this->get('/movies?year=1994&genre=Crime')
+            ->assertStatus(200)
+            ->assertSee('Pulp Fiction')
+            ->assertDontSee('The Shawshank Redemption')
+            ->assertDontSee('The Godfather');
+    }
+
+    public function test_movie_filter_links_preserve_the_other_filter_and_can_clear_both(): void
+    {
+        $response = $this->get('/movies?year=1994&genre=Drama');
+
+        $response->assertStatus(200)
+            ->assertSee(route('movies.index', ['year' => 2008, 'genre' => 'Drama']))
+            ->assertSee(route('movies.index', ['year' => 1994, 'genre' => 'Crime']))
+            ->assertSee(route('movies.index'))
+            ->assertSee('Showing movies with genre: Drama and year: 1994');
+    }
+
     public function test_movie_detail_page_shows_the_correct_movie(): void
     {
         $response = $this->get('/movies/1');
