@@ -89,25 +89,6 @@ class MoviesController extends Controller
         //
     }
 
-    public function filter(?string $year = null)
-    {
-        $movies = $this->Movies();
-
-        if ($year === null || $year === '') {
-            return view('movies.filter', [
-                'movies' => $movies,
-                'activeFilter' => null,
-            ]);
-        }
-
-        $filteredMovies = array_values(array_filter($movies, fn ($movie) => (string) $movie['year'] === (string) $year));
-
-        return view('movies.filter', [
-            'movies' => $filteredMovies,
-            'activeFilter' => $year,
-        ]);
-    }
-
     private function Movies(): array
     {
         return [
