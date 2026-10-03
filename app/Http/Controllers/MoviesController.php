@@ -54,6 +54,10 @@ class MoviesController extends Controller
             'year' => ['required', 'integer', 'min:1900', 'max:2099'],
             'rating' => ['required', 'numeric', 'min:0', 'max:10'],
             'is_visible' => ['required', 'boolean'],
+        ], [
+            'title.max' => 'The title must not be greater than 255 characters.',
+            'year.min' => 'The year must be at least 1900.',
+            'year.max' => 'The year must not be greater than 2099.',
         ]);
 
         $movies = $this->Movies();
