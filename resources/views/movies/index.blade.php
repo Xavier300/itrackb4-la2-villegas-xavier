@@ -42,6 +42,7 @@
                 <th>Year</th>
                 <th>Genre</th>
                 <th>Rating</th>
+                <th>Visible</th>
             </tr>
         </thead>
         <tbody>
@@ -63,10 +64,17 @@
                     </td>
                     <td>{{ $movie['genre'] }}</td>
                     <td>{{ number_format($movie['rating'], 1) }}/10</td>
+                    <td>
+                        @if (($movie['is_visible'] ?? false))
+                            <span class="badge bg-success">Visible</span>
+                        @else
+                            <span class="badge bg-secondary">Hidden</span>
+                        @endif
+                    </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5">No movies found.</td>
+                    <td colspan="6">No movies found.</td>
                 </tr>
             @endforelse
         </tbody>

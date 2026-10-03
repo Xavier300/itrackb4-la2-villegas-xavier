@@ -10,6 +10,12 @@
     <p class="small text-secondary mb-2">Prepared by: Xavier A. Villegas</p>
     @include('partials._nav')
 
+    @if (session('success'))
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
+
     @yield('content')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>

@@ -5,7 +5,7 @@
 @section('heading', 'Filter Movie')
 
 @section('content')
-    @if ($activeFilter === null)
+    @if ($activeFilter === 'all')
         <h4 class="mt-4">All items are shown</h4>
     @else
         <h4 class="mt-4">Filtered by year: {{ $activeFilter }}</h4>
@@ -17,6 +17,8 @@
                 <th>#</th>
                 <th>Title</th>
                 <th>Year</th>
+                <th>Genre</th>
+                <th>Rating</th>
             </tr>
         </thead>
         <tbody>
@@ -25,10 +27,12 @@
                     <td>{{ $loop->iteration }}</td>
                     <td><a href="{{ route('movies.show', ['movie' => $movie['id']]) }}">{{ $movie['title'] }}</a></td>
                     <td>{{ $movie['year'] }}</td>
+                    <td>{{ $movie['genre'] }}</td>
+                    <td>{{ number_format($movie['rating'], 1) }}/10</td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="3">No movies found for this year.</td>
+                    <td colspan="5">No movies found for this year.</td>
                 </tr>
             @endforelse
         </tbody>

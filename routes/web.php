@@ -7,4 +7,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('movies', MoviesController::class)->only(['index', 'show']);
+Route::resource('movies', MoviesController::class)->only(['index', 'show', 'create', 'store']);

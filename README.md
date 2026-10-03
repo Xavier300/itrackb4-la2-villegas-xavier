@@ -1,7 +1,5 @@
-Q1: I did not need a new route because Laravel's router matches the request method and URL path, not the query string. `/movies`, `/movies?genre=Drama`, and `/movies?year=1994&genre=Drama` all use the same GET `/movies` route. The `index` method reads the query values and applies the filters.
+Q1: My form submits with POST to movies.store. If it used GET, the form values would be added to the URL as query parameters. Refreshing the results page could resend that URL and repeat the request with those values. With my current POST form, Laravel validates the request and then redirects to movies.index after saving.
 
-Q2: If I made both filters required path parameters, a year-only URL could look like `/movies/4/all`. The second path segment would still be required, so `all` would mean no genre filter. Query parameters are simpler because I can leave the other filter out or preserve its current value.
+Q2: $request->validate(...) throws a validation exception when any rule fails. That stops store() before it reads and saves the movies. Laravel redirects the visitor back to the form with validation errors (and the submitted input).
 
-Q3: The detail link needs to check the `movies.show` route so it is active on a movie details page. I do not need a different pattern for filtered results because adding query values does not change the route name from `movies.index`. That index navigation state therefore stays active when either filter is applied.
-
-Q4: I removed the old `filter` method because the index now handles the year and genre filters from the query string. The empty `store` and `update` methods are resource-controller actions, but the resource route only registers `index` and `show`, so no URL reaches those methods. The old filter action had its own explicit GET route before I removed it.
+Q3: The layout renders on every page, but the success message is flashed only by the successful store() response using with('success', ...). Also, the layout currently has no code to display that session value, so it won’t appear on any page as written.

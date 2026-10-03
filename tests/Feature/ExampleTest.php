@@ -24,6 +24,13 @@ class ExampleTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_movies_create_page_returns_a_successful_response(): void
+    {
+        $response = $this->get('/movies/create');
+
+        $response->assertStatus(200);
+    }
+
     public function test_movies_index_shows_all_movies_without_filters(): void
     {
         $this->get('/movies')

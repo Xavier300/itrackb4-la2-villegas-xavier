@@ -40,7 +40,7 @@ class MoviesController extends Controller
      */
     public function create()
     {
-        //
+        return view('movies.create');
     }
 
     /**
@@ -48,7 +48,28 @@ class MoviesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $validated = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'genre' => ['required', 'string', 'max:255'],
+            'year' => ['required', 'integer', 'min:1900', 'max:2099'],
+            'rating' => ['required', 'numeric', 'min:0', 'max:10'],
+            'is_visible' => ['required', 'boolean'],
+        ]);
+
+        $movies = $this->Movies();
+        $nextId = collect($movies)->max('id') + 1;
+
+        $movies[$nextId] = [
+            'id' => $nextId,
+            'title' => $validated['title'],
+            'year' => (int) $validated['year'],
+            'genre' => $validated['genre'],
+            'rating' => (float) $validated['rating'],
+            'is_visible' => (bool) $validated['is_visible'],
+        ];
+
+        $this->saveMovies($movies);
+        return redirect()->route('movies.index')->with('success', 'Movie created successfully.');
     }
 
     /**
@@ -89,14 +110,18 @@ class MoviesController extends Controller
         //
     }
 
-    private function Movies(): array
+    private function Movies()
     {
-        return [
-            ['id' => 1, 'title' => 'The Shawshank Redemption', 'year' => 1994, 'genre' => 'Drama', 'rating' => 9.3],
-            ['id' => 2, 'title' => 'The Godfather', 'year' => 1972, 'genre' => 'Crime', 'rating' => 9.2],
-            ['id' => 3, 'title' => 'The Dark Knight', 'year' => 2008, 'genre' => 'Action', 'rating' => 9.0],
-            ['id' => 4, 'title' => 'Pulp Fiction', 'year' => 1994, 'genre' => 'Crime', 'rating' => 8.9],
-            ['id' => 5, 'title' => 'Forrest Gump', 'year' => 1994, 'genre' => 'Drama', 'rating' => 8.8],
-        ];
+        $path = storage_path('app/Movies.json');
+
+        return json_decode(file_get_contents($path), true) ?? [];
+    }
+
+    private function saveMovies($movies): void
+    {
+        file_put_contents(
+            storage_path('app/Movies.json'),
+            json_encode($movies, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
+        );
     }
 }
